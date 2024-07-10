@@ -14,34 +14,26 @@ function App() {
           throw new Error('Network response was not ok');
         }
         const result = await response.json();
-        setData(result);
+        setData(result); // Set the fetched data into the state
       } catch (err) {
-        setError(err.message);
+        setError(err.message); // Set error message if there's an error
       } finally {
-        setLoading(false);
+        setLoading(false); // Set loading state to false, regardless of success or failure
       }
     };
 
-    fetchData();
-  }, []);
+    fetchData(); // Call the fetchData function once when the component mounts
+  }, []); // Empty dependency array ensures this effect runs only once after initial render
 
+  // Conditional rendering based on loading and error states
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
+  // Display the fetched data once loaded
   return (
     <div className="App">
       <header className="App-header">
-        <h1>IP Information</h1>
-        {data && (
-          <div>
-            <p><strong>IP Address:</strong> {data.ip}</p>
-            <p><strong>Country:</strong> {data.country}</p>
-            <p><strong>Region:</strong> {data.region}</p>
-            <p><strong>City:</strong> {data.city}</p>
-            <p><strong>ISP:</strong> {data.isp}</p>
-            <p><strong>Timezone:</strong> {data.timezone}</p>
-          </div>
-        )}
+        {data && <p>Your IP Address: {data.ip}</p>}
       </header>
     </div>
   );
