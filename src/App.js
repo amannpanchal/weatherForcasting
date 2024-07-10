@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import './App.css';
 
 function App() {
@@ -10,9 +9,12 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://ip-api.com/json');
-        setData(response.data);
-        console.log(response.data,'the data is');
+        const response = await fetch('http://ip-api.com/json');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const result = await response.json();
+        setData(result);
         setLoading(false);
       } catch (err) {
         setError(err.message);
