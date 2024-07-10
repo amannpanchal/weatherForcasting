@@ -9,13 +9,7 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('https://cors-anywhere.herokuapp.com/http://ip-api.com/json', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'omit',
-        });
+        const response = await fetch('/api/ip-info');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
