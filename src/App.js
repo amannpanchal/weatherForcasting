@@ -9,7 +9,13 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://ip-api.com/json');
+        const response = await fetch('http://ip-api.com/json', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'omit', // This will ensure credentials are not included
+        });
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
