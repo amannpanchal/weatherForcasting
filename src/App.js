@@ -15,12 +15,13 @@ function App() {
         }
         const result = await response.json();
         setData(result);
-        setLoading(false);
       } catch (err) {
         setError(err.message);
+      } finally {
         setLoading(false);
       }
     };
+
     fetchData();
   }, []);
 
@@ -33,9 +34,9 @@ function App() {
         <h1>IP Information</h1>
         {data && (
           <div>
-            <p><strong>IP Address:</strong> {data.query}</p>
+            <p><strong>IP Address:</strong> {data.ip}</p>
             <p><strong>Country:</strong> {data.country}</p>
-            <p><strong>Region:</strong> {data.regionName}</p>
+            <p><strong>Region:</strong> {data.region}</p>
             <p><strong>City:</strong> {data.city}</p>
             <p><strong>ISP:</strong> {data.isp}</p>
             <p><strong>Timezone:</strong> {data.timezone}</p>
