@@ -1,31 +1,37 @@
-// src/IPAddressFetcher.js
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const App = () => {
-  const [ipAddress, setIpAddress] = useState('');
+  const [data, setData] = useState(null);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    fetchIPAddress();
+    const fetchData = async () => {
+      try {
+        const response = await fetch('https://ipinfo.io/103.70.167.76?token=3605d66b177820');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const result = await response.json();
+        setData(result);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setError('Error fetching data');
+      }
+    };
+
+    fetchData();
   }, []);
 
-  const fetchIPAddress = async () => {
-    try {
-      const response = await fetch('https://api.ipify.org?format=json');
-      if (!response.ok) {
-        throw new Error('Failed to fetch IP address');
-      }
-      const data = await response.json();
-      setIpAddress(data.ip);
-    } catch (error) {
-      console.error('Error fetching IP address:', error);
-      setIpAddress('Error fetching IP');
-    }
-  };
-
   return (
-    <div>
-      <h2>Current IP Address</h2>
-      <p>{ipAddress}</p>
+    <div className="App">
+      <header className="App-header">
+        <h1>IP Information (ipinfo.io):</h1>
+        {data ? (
+          <pre>{JSON.stringify(data, null, 2)}</pre>
+        ) : (
+          <p>{error || 'Fetching data...'}</p>
+        )}
+      </header>
     </div>
   );
 };
