@@ -1,35 +1,40 @@
 import React, { useEffect, useState } from 'react';
 
 const App = () => {
-  const [data, setData] = useState(null);
+  const [ipInfo, setIpInfo] = useState({});
   const [error, setError] = useState('');
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('https://ipinfo.io/103.70.167.76?token=3605d66b177820');
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const result = await response.json();
-        setData(result);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        setError('Error fetching data');
-      }
-    };
-
-    fetchData();
+    const apiKey = '3605d66b177820'; // Replace with your API key
+    fetch(`https://ipinfo.io/json?token=${apiKey}`)
+      .then(response => response.json())
+      .then(data => {
+        setIpInfo(data);
+      })
+      .catch(error => {
+        console.error('Error fetching IP address:', error);
+        setError('Error fetching IP address');
+      });
   }, []);
 
   return (
     <div className="App">
       <header className="App-header">
-        <h1>IP Information (ipinfo.io):</h1>
-        {data ? (
-          <pre>{JSON.stringify(data, null, 2)}</pre>
+        <h1>IP Address Information (ipinfo.io):</h1>
+        {error && <p>{error}</p>}
+        {ipInfo.ip ? (
+          <div>
+            <p><strong>IP Address:</strong> {ipInfo.ip}</p>
+            <p><strong>City:</strong> {ipInfo.city}</p>
+            <p><strong>Region:</strong> {ipInfo.region}</p>
+            <p><strong>Country:</strong> {ipInfo.country}</p>
+            <p><strong>Location:</strong> {ipInfo.loc}</p>
+            <p><strong>Organization:</strong> {ipInfo.org}</p>
+            <p><strong>Postal Code:</strong> {ipInfo.postal}</p>
+            <p><strong>Timezone:</strong> {ipInfo.timezone}</p>
+          </div>
         ) : (
-          <p>{error || 'Fetching data...'}</p>
+          <p>Fetching IP information...</p>
         )}
       </header>
     </div>
