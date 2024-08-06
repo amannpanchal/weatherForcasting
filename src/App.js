@@ -72,28 +72,26 @@
 
 
 // src/App.js
-import React, { useEffect } from 'react';
+// src/App.js
+import React from 'react';
+
+const styles = {
+  textarea: {
+    fontSize: '16px',
+    width: '100%',
+    height: '100px',
+    padding: '10px',
+    boxSizing: 'border-box',
+    border: '1px solid #ccc',
+    borderRadius: '4px'
+  }
+};
 
 const App = () => {
-  useEffect(() => {
-    const handleTouchStart = (event) => {
-      if (event.target.tagName === 'TEXTAREA' || event.target.tagName === 'INPUT') {
-        document.body.style.zoom = '1.0';
-      }
-    };
-
-    document.addEventListener('touchstart', handleTouchStart, true);
-
-    return () => {
-      document.removeEventListener('touchstart', handleTouchStart, true);
-    };
-  }, []);
-
   return (
-    <div>
+    <div style={{ padding: '20px' }}>
       <h1>My Application</h1>
-      <textarea placeholder="Type here..."></textarea>
-      {/* Add other input elements if needed */}
+      <textarea style={styles.textarea} placeholder="Type here..."></textarea>
     </div>
   );
 };
