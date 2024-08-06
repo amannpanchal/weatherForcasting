@@ -82,7 +82,7 @@ const styles = {
     height: '100px',
     padding: '10px',
     boxSizing: 'border-box',
-    border: '1px solid #ccc',
+    border: '1px solid blue',
     borderRadius: '4px'
   }
 };
